@@ -10,6 +10,7 @@ module "website" {
   source                            = "git::https://github.com/richardkdrew/terraform-aws-s3-website.git?ref=master"
 
   bucket_name                       = "${var.domain}"
+  deployer_arns                     = "${var.deployer_arns}"
   duplicate_content_penalty_secret  = "${var.duplicate_content_penalty_secret}"
   environment                       = "${var.environment}"
   project                           = "${var.project}"
@@ -22,6 +23,7 @@ module "website" {
 |  Name                              |  Default       |  Description                                                                        |  Required |
 |:-----------------------------------|:--------------:|:------------------------------------------------------------------------------------|:---------:|
 |  `bucket_name`                     |  ``            |  The domain name for the website being hosted                                       |  Yes      |
+|  `deployer_arns`                   |  []            |  (Optional) Array of deployer ARNs to grant `deployer` permissions                  |  No       |
 |  `duplicate_content_penalty_secret`|  ``            |  Secret/password used to restrict access to S3                                      |  Yes      |
 |  `environment`                     |  `default`     |  The label for the environment. Used for naming/tagging purposes                    |  No       |
 |  `error_document`                  |  `index.html`  |  An absolute path to the document to return in case of a 4XX error                  |  No       |
@@ -29,8 +31,6 @@ module "website" {
 |  `project`                         |  `noproject`   |  The label for the project. Used for naming/tagging purposes                        |  No       |
 |  `region`                          |  ``            |  e.g. eu-central-1                                                                  |  Yes      |
 |  `tags`                            |  `[]`          |  Optional Tags                                                                      |  No       |
-
-The label for the project. Used for naming/tagging purposes
 
 ## Outputs
 

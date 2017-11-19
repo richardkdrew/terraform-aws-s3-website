@@ -38,4 +38,37 @@ data "aws_iam_policy_document" "website_policy" {
 
     resources = ["${aws_s3_bucket.website_bucket.arn}/*"]
   }]
+
+  # Support deployer ARNs
+  statement = ["${flatten(data.aws_iam_policy_document.deployer_policy.*.statement)}"]
+}
+
+data "aws_iam_policy_document" "deployer_policy" {
+  count = "${length(var.deployer_arns)}"
+
+  statement = [{
+    actions   = ["s3:ListBucket"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["${var.deployer_arns}"]
+    }
+
+    resources = ["${aws_s3_bucket.website_bucket.arn}"]
+  },
+  {
+    actions   = [
+      "s3:DeleteObject",
+      "s3:GetObject",
+      "s3:GetObjectVersion",
+      "s3:PutObject"
+    ]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["${var.deployer_arns}"]
+    }
+
+    resources = ["${aws_s3_bucket.website_bucket.arn}/*"]
+  }]
 }

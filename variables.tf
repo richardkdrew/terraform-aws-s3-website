@@ -2,6 +2,12 @@ variable "bucket_name" {
 	description = "The name of the S3 bucket to create, e.g. your-bucket-name"
 }
 
+variable "deployer_arns" {
+  type        = "list"
+  default     = []
+  description = "(Optional) Array of deployer ARNs to grant `deployer` permissions"
+}
+
 variable duplicate_content_penalty_secret {
   description = "Secret/password used to restrict access to S3 to CloudFront"
 }
